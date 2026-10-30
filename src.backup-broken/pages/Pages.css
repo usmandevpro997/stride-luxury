@@ -1,0 +1,281 @@
+/* AUREL Shop — Luxury Minimal Storefront
+   Canvas #F6F3EE, Paper #FEFBF6, Ink #111111, Forest #1A2E1E, Accent #A36A3C, Sage #7D8C6E, Sand #D8CFC0, Line #E7E3DA
+*/
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500&display=swap');
+
+.aurel-shop{
+  --canvas:#F6F3EE;
+  --paper:#FEFBF6;
+  --ink:#111111;
+  --forest:#1A2E1E;
+  --forest-2:#28352C;
+  --accent:#A36A3C;
+  --accent-soft:#E7C6A9;
+  --sage:#7D8C6E;
+  --sand:#D8CFC0;
+  --line:#E7E3DA;
+  --muted:#77776E;
+  --muted-2:#696961;
+  --ease: cubic-bezier(0.16,1,0.3,1);
+  background:var(--canvas);
+  color:var(--ink);
+  min-width:320px;
+}
+
+.aurel-sr-only{
+  position:absolute;
+  width:1px;height:1px;
+  padding:0;margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  white-space:nowrap;border:0
+}
+
+/* Hero */
+.aurel-shop-hero{
+  padding:72px 6% 56px;
+  display:grid;
+  grid-template-columns:1.1fr .9fr;
+  gap:5%;
+  align-items:end;
+  border-bottom:1px solid var(--line);
+}
+.aurel-shop-eyebrow{
+  display:inline-block;
+  font-size:9px;
+  letter-spacing:.14em;
+  color:var(--muted);
+  margin-bottom:14px;
+}
+.aurel-shop-hero h1{
+  font-family:'Fraunces',serif;
+  font-weight:400;
+  font-size:clamp(48px,6vw,84px);
+  line-height:.95;
+  letter-spacing:-.06em;
+  margin:12px 0 16px;
+}
+.aurel-shop-hero h1 span{color:var(--accent)}
+.aurel-shop-hero-copy p{
+  max-width:46ch;
+  color:var(--muted-2);
+  font-size:14px;
+  line-height:1.85;
+  margin:0 0 18px;
+}
+.aurel-shop-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:26px;
+  font-size:9px;
+  letter-spacing:.12em;
+  color:var(--muted);
+}
+.aurel-shop-dot{width:7px;height:7px;border-radius:50%;background:var(--sage);flex-shrink:0}
+.aurel-shop-hero-note{
+  justify-self:end;
+  max-width:280px;
+  padding:22px 20px;
+  background:white;
+  border:1px solid var(--line);
+  text-align:left;
+}
+.aurel-shop-hero-note strong{display:block;font-size:11px;letter-spacing:.12em;margin-bottom:4px}
+.aurel-shop-hero-note span{display:block;font-family:'Fraunces',serif;font-size:22px;margin-bottom:10px}
+.aurel-shop-hero-note em{display:block;font-style:normal;font-size:11px;line-height:1.6;color:var(--muted)}
+
+/* Controls */
+.aurel-shop-controls{
+  padding:18px 6%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+  background:rgba(255,255,255,.4);
+  position:sticky;
+  top:82px;
+  z-index:5;
+  backdrop-filter:blur(8px);
+}
+.aurel-shop-filters, .aurel-shop-sort{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.aurel-shop-label{font-size:9px;letter-spacing:.14em;color:var(--muted);flex-shrink:0}
+.aurel-filter-group{display:flex;gap:8px;flex-wrap:wrap}
+.aurel-filter-btn{
+  padding:9px 14px;
+  background:white;
+  border:1px solid var(--line);
+  font-size:9px;
+  letter-spacing:.12em;
+  cursor:pointer;
+  transition:border-color .22s var(--ease), background .22s var(--ease), color .22s var(--ease), transform .22s var(--ease);
+}
+.aurel-filter-btn:hover{border-color:var(--ink);transform:translateY(-1px)}
+.aurel-filter-btn.is-active{background:var(--ink);color:white;border-color:var(--ink)}
+.aurel-sort-select{
+  padding:9px 12px;
+  background:white;
+  border:1px solid var(--line);
+  font-size:11px;
+  color:var(--ink);
+  min-width:200px;
+  outline:none;
+}
+.aurel-sort-select:focus{border-color:var(--ink)}
+
+/* Grid */
+.aurel-shop-grid-wrap{padding:48px 6% 72px}
+.aurel-shop-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:24px;
+}
+.aurel-shop-card{
+  min-width:0;
+  background:transparent;
+  transition:transform .32s var(--ease);
+}
+.aurel-shop-card:hover{transform:translateY(-3px)}
+.aurel-shop-card-media{
+  position:relative;
+  overflow:hidden;
+  background:#E7DFD2;
+}
+.aurel-shop-card-media.tone-sand{background:#E7DFD2}
+.aurel-shop-card-media.tone-rose{background:#E7D8CC}
+.aurel-shop-card-media.tone-sage{background:#DCE0D2}
+.aurel-shop-card-media img{
+  width:100%;
+  height:clamp(280px,34vw,440px);
+  object-fit:cover;
+  mix-blend-mode:multiply;
+  transition:transform .7s var(--ease);
+  display:block;
+}
+.aurel-shop-card:hover .aurel-shop-card-media img{transform:scale(1.05)}
+.aurel-shop-cat{
+  position:absolute;
+  top:14px;left:14px;
+  padding:6px 8px;
+  background:rgba(254,251,246,.92);
+  font-size:8px;
+  letter-spacing:.12em;
+}
+.aurel-shop-add{
+  position:absolute;
+  left:12px;right:12px;bottom:12px;
+  padding:14px;
+  background:rgba(254,251,246,.96);
+  border:0;
+  cursor:pointer;
+  font-size:9px;
+  letter-spacing:.12em;
+  transition:background .22s var(--ease), transform .22s var(--ease);
+}
+.aurel-shop-add:hover{background:white;transform:translateY(-1px)}
+.aurel-shop-card-info{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding-top:16px;
+}
+.aurel-shop-card-info h3{
+  font-family:'Fraunces',serif;
+  font-size:20px;
+  font-weight:400;
+  margin:6px 0 6px;
+}
+.aurel-shop-card-info p{
+  color:var(--muted);
+  font-size:11px;
+  line-height:1.6;
+  margin:0;
+  max-width:32ch;
+}
+.aurel-shop-price-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  padding-top:6px;
+  border-top:1px solid var(--line);
+  margin-top:4px;
+}
+.aurel-shop-price{font-size:13px;font-weight:500}
+.aurel-shop-tone{font-size:8px;letter-spacing:.12em;color:var(--muted)}
+
+/* Empty */
+.aurel-shop-empty{
+  padding:80px 20px;
+  text-align:center;
+  background:white;
+  border:1px solid var(--line);
+}
+.aurel-shop-empty p{color:var(--muted);font-size:13px;margin:0 0 18px}
+.aurel-shop-reset{
+  padding:12px 18px;
+  background:var(--ink);
+  color:white;
+  border:0;
+  font-size:9px;
+  letter-spacing:.12em;
+  cursor:pointer;
+}
+.aurel-shop-reset:hover{background:var(--accent)}
+
+/* Footer note */
+.aurel-shop-footer-note{
+  padding:18px 6% 28px;
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  border-top:1px solid var(--line);
+  font-size:9px;
+  letter-spacing:.06em;
+  color:var(--muted);
+}
+.aurel-shop-top-link{
+  background:transparent;
+  border:0;
+  font-size:9px;
+  letter-spacing:.12em;
+  cursor:pointer;
+  padding:0;
+  border-bottom:1px solid var(--ink);
+}
+.aurel-shop-top-link:hover{opacity:.6}
+
+/* Focus */
+.aurel-shop a:focus-visible,
+.aurel-shop button:focus-visible,
+.aurel-shop select:focus-visible{
+  outline:2px solid var(--accent);
+  outline-offset:3px;
+}
+
+/* Responsive */
+@media (max-width: 1024px){
+  .aurel-shop-hero{grid-template-columns:1fr;gap:28px}
+  .aurel-shop-hero-note{justify-self:start;max-width:100%}
+  .aurel-shop-grid{grid-template-columns:repeat(2,1fr)}
+  .aurel-shop-controls{top:68px}
+}
+
+@media (max-width: 640px){
+  .aurel-shop-hero{padding:44px 5% 36px}
+  .aurel-shop-hero h1{font-size:clamp(42px,12vw,56px)}
+  .aurel-shop-controls{padding:14px 5%;flex-direction:column;align-items:flex-start}
+  .aurel-shop-grid-wrap{padding:28px 5% 56px}
+  .aurel-shop-grid{grid-template-columns:1fr;gap:28px}
+  .aurel-shop-card-media img{height:92vw;max-height:480px}
+  .aurel-sort-select{width:100%;min-width:0}
+  .aurel-shop-footer-note{padding:16px 5% 24px}
+}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+}

@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400;0,6..96,500;1,6..96,400&family=Inter:wght@400;500&display=swap');
+
+.aurel-pdp{padding:24px 6% 80px; background:#F6F3EE; min-height:70vh}
+.aurel-pdp-breadcrumb{display:flex;flex-wrap:wrap;gap:8px;align-items:center;font-size:9px;letter-spacing:.12em;color:#77776E;margin:8px 0 28px}
+.aurel-pdp-breadcrumb a:hover{color:#111111}
+.aurel-pdp-breadcrumb .is-current{color:#111111}
+.aurel-pdp-main{display:grid;grid-template-columns:1.05fr .95fr;gap:6%;align-items:start}
+.aurel-pdp-img{position:relative;overflow:hidden;background:#E7DFD2}
+.aurel-pdp-img.tone-sand{background:#E7DFD2}.aurel-pdp-img.tone-rose{background:#E7D8CC}.aurel-pdp-img.tone-sage{background:#DCE0D2}
+.aurel-pdp-img img{width:100%;height:clamp(440px,52vw,720px);object-fit:cover;mix-blend-mode:multiply;transition:transform .8s cubic-bezier(0.16,1,0.3,1)}
+.aurel-pdp-img:hover img{transform:scale(1.03)}
+.aurel-pdp-cat{position:absolute;top:16px;left:16px;padding:7px 10px;background:rgba(247,245,240,.92);font-size:9px;letter-spacing:.12em}
+.aurel-pdp-info{padding-top:8px}
+.aurel-pdp-info h1{font-family:'Bodoni Moda',serif;font-weight:400;letter-spacing:-.06em;font-size:clamp(32px,4.5vw,54px);line-height:.98;margin:14px 0 10px}
+.aurel-pdp-info h1 span{color:#A36A3C}
+.aurel-pdp-price-row{display:flex;align-items:center;gap:16px;margin:10px 0 18px}
+.aurel-pdp-price{font-size:22px;letter-spacing:-.02em}
+.aurel-pdp-stock{font-size:9px;letter-spacing:.12em;color:#77776E;background:#fff;border:1px solid #E7E3DA;padding:6px 10px}
+.aurel-pdp-desc{max-width:44ch;color:#111111;font-size:15px;line-height:1.7;margin:0 0 14px;font-family:'Inter',sans-serif}
+.aurel-pdp-long{max-width:48ch}
+.aurel-pdp-long p{color:#696961;font-size:13px;line-height:1.9;margin:0 0 10px}
+.aurel-small-muted{font-size:11px;color:#77776E;line-height:1.6}
+.aurel-pdp-qty-row{display:flex;align-items:center;gap:18px;margin:28px 0 14px}
+.aurel-shop-label{font-size:9px;letter-spacing:.14em;color:#77776E}
+.aurel-qty{display:flex;align-items:center;border:1px solid #E7E3DA;background:#fff}
+.aurel-qty button{width:44px;height:44px;border:0;background:transparent;cursor:pointer;font-size:18px;transition:background .2s}
+.aurel-qty button:hover{background:#F7F5F0}
+.aurel-qty span{width:36px;text-align:center;font-size:14px}
+.aurel-pdp-add{width:100%;padding:18px 22px;background:#111111;color:#F7F5F0;border:0;cursor:pointer;font-size:11px;letter-spacing:.14em;transition:background .25s cubic-bezier(0.16,1,0.3,1), transform .25s cubic-bezier(0.16,1,0.3,1);margin:8px 0 22px}
+.aurel-pdp-add:hover{background:#A36A3C;transform:translateY(-1px)}
+.aurel-pdp-meta{display:grid;gap:8px;border-top:1px solid #E7E3DA;padding-top:16px;margin-top:8px;font-size:11px;letter-spacing:.06em;color:#696961}
+.aurel-pdp-related{margin-top:84px;padding-top:36px;border-top:1px solid #E7E3DA}
+.aurel-related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:24px}
+.aurel-related-card{cursor:pointer}
+.aurel-related-media{position:relative;overflow:hidden;background:#E7DFD2}
+.aurel-related-media img{width:100%;height:260px;object-fit:cover;mix-blend-mode:multiply;transition:transform .6s cubic-bezier(0.16,1,0.3,1)}
+.aurel-related-card:hover .aurel-related-media img{transform:scale(1.05)}
+.aurel-related-media span{position:absolute;top:10px;left:10px;padding:5px 7px;background:rgba(247,245,240,.92);font-size:8px;letter-spacing:.12em}
+.aurel-related-info{display:flex;justify-content:space-between;gap:8px;padding:10px 0 0}
+.aurel-related-info h3{font-family:'Bodoni Moda',serif;font-weight:400;margin:0;font-size:16px}
+.aurel-related-info span{font-size:12px}
+.aurel-pdp--notfound{display:grid;place-items:center;min-height:60vh}
+.aurel-pdp-notfound-inner{max-width:520px;text-align:center}
+.aurel-pdp-notfound-inner h1{font-family:'Bodoni Moda',serif;font-weight:400;font-size:clamp(32px,5vw,52px);line-height:1}
+.aurel-pdp-notfound-inner h1 em{font-style:italic;color:#A36A3C}
+.aurel-pdp-notfound-inner p{color:#696961;font-size:13px;line-height:1.8;margin:16px 0}
+.aurel-pdp-notfound-inner code{background:#fff;border:1px solid #E7E3DA;padding:2px 6px;font-size:12px}
+.aurel-pdp-actions{display:flex;gap:10px;justify-content:center;margin-top:22px;flex-wrap:wrap}
+.aurel-btn-primary{display:inline-flex;align-items:center;gap:8px;padding:14px 18px;background:#111111;color:#F6F3EE;font-size:10px;letter-spacing:.12em;border:0}
+.aurel-btn-ghost{display:inline-flex;align-items:center;gap:8px;padding:14px 18px;background:transparent;border:1px solid #E7E3DA;color:#111111;font-size:10px;letter-spacing:.12em}
+.aurel-text-link{font-size:11px;letter-spacing:.06em;text-decoration:underline;text-underline-offset:4px}
+@media(max-width:900px){
+  .aurel-pdp-main{grid-template-columns:1fr;gap:28px}
+  .aurel-related-grid{grid-template-columns:repeat(2,1fr)}
+  .aurel-pdp-img img{height:min(110vw,560px)}
+}
+@media(max-width:600px){
+  .aurel-pdp{padding:16px 5% 60px}
+  .aurel-related-grid{grid-template-columns:1fr 1fr;gap:12px}
+  .aurel-related-media img{height:42vw;min-height:160px}
+}

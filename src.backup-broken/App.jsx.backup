@@ -1,0 +1,125 @@
+
+import { useState } from 'react'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import './Aurel.css'
+import './pages/Home.css'
+import './pages/Shop.css'
+import Navbar from './components/Navbar'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import Shop from './pages/Shop'
+
+// Helper to get reliable images - using same proven Unsplash IDs in rotation to avoid 404
+const IMG = {
+  cleanser: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=900&q=80',
+  serum: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=900&q=80',
+  moisturizer: 'https://images.unsplash.com/photo-1570554886111-e80fc1555b90?auto=format&fit=crop&w=900&q=80',
+  oil: 'https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=900&q=80',
+  balm: 'https://images.unsplash.com/photo-1617897903246-719242758050?auto=format&fit=crop&w=900&q=80',
+  foam: 'https://images.unsplash.com/photo-1556228720-195a672e8a03?auto=format&fit=crop&w=900&q=80',
+  cream: 'https://images.unsplash.com/photo-1598440942775-4210a86e0e6b?auto=format&fit=crop&w=900&q=80',
+  lotion: 'https://images.unsplash.com/photo-1556228578-8c365410f82a?auto=format&fit=crop&w=900&q=80',
+  mist: 'https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?auto=format&fit=crop&w=900&q=80',
+  mask: 'https://images.unsplash.com/photo-1556228578-0d85b1a4d571?auto=format&fit=crop&w=900&q=80',
+}
+
+const productsData = [
+  // CLEANSE - 10
+  { id: 'cleanser', name: 'The Daily Cleanser', category: 'CLEANSE', description: 'A gentle, refreshing daily ritual that respects your barrier.', longDescription: 'Oil-to-milk texture. Oat lipid + chamomile. Concept formula.', price: 28, image: IMG.cleanser, tone: 'sand' },
+  { id: 'cleanser-oil', name: 'Purifying Oil Cleanser', category: 'CLEANSE', description: 'Silk oil that melts makeup and SPF.', longDescription: 'Camellia + oat lipid oil. Emulsifies to milk, rinses clean.', price: 34, image: IMG.oil, tone: 'amber' },
+  { id: 'cleanser-balm', name: 'Softening Cleansing Balm', category: 'CLEANSE', description: 'Balm-to-oil for dry, sensitive feel.', longDescription: 'Shea butter + bisabolol balm. Melts on contact, comforts barrier.', price: 32, image: IMG.balm, tone: 'ivory' },
+  { id: 'cleanser-foam', name: 'Cloud Foam Cleanser', category: 'CLEANSE', description: 'Airy amino-acid foam, no tightness.', longDescription: 'Low pH foam with chamomile. Morning freshness.', price: 26, image: IMG.foam, tone: 'sand' },
+  { id: 'cleanser-micellar', name: 'Micellar Ritual Water', category: 'CLEANSE', description: 'No-rinse micellar for quick resets.', longDescription: 'Micellar + panthenol. For gym, travel, or second cleanse.', price: 24, image: IMG.mist, tone: 'sage' },
+  { id: 'cleanser-clay', name: 'Mineral Clay Cleanser', category: 'CLEANSE', description: 'Creamy clay that clarifies pores.', longDescription: 'Kaolin + squalane clay. Non-stripping texture.', price: 30, image: IMG.lotion, tone: 'rose' },
+  { id: 'cleanser-enzyme', name: 'Enzyme Powder Cleanser', category: 'CLEANSE', description: 'Water-activated enzyme powder polish.', longDescription: 'Papaya enzyme + oat powder. Custom foam.', price: 29, image: IMG.cleanser, tone: 'ivory' },
+  { id: 'cleanser-double-duo', name: 'Double Cleanse Duo', category: 'CLEANSE', description: 'Evening ritual set, oil + foam.', longDescription: 'Mini oil cleanser + mini foam. Evening routine set.', price: 46, image: IMG.oil, tone: 'sand' },
+  { id: 'cleanser-gel', name: 'Gentle Gel Cleanser', category: 'CLEANSE', description: 'Clear gel for sensitive skin.', longDescription: 'Aloe + oat. Fragrance free, low pH.', price: 27, image: IMG.foam, tone: 'sage' },
+  { id: 'cleanser-charcoal', name: 'Charcoal Detox Cleanser', category: 'CLEANSE', description: 'Charcoal for congested look.', longDescription: 'Bamboo charcoal + squalane. Twice weekly for oily areas.', price: 31, image: IMG.cleanser, tone: 'ivory' },
+
+  // TREAT - 12
+  { id: 'serum', name: 'Radiance Serum', category: 'TREAT', description: 'A considered step towards a luminous look.', longDescription: '5% Niacinamide + stabilized Vitamin C concept. Demo only.', price: 42, image: IMG.serum, tone: 'rose' },
+  { id: 'treat-niacinamide', name: 'Clarifying Niacinamide Serum', category: 'TREAT', description: 'Refines appearance of pores and shine.', longDescription: '5% niacinamide + zinc PCA gel-serum. Demo formula.', price: 38, image: IMG.serum, tone: 'sage' },
+  { id: 'treat-retinal', name: 'Nightly Retinal Serum', category: 'TREAT', description: 'Overnight renewal with encapsulated retinal.', longDescription: '0.05% retinal + squalane. Night use only. Concept.', price: 58, image: IMG.oil, tone: 'amber' },
+  { id: 'treat-vitamin-c', name: 'Vitamin C Brightening Serum', category: 'TREAT', description: 'Daytime antioxidant for brighter look.', longDescription: 'Stable Vitamin C derivative + ferulic. Water-light.', price: 52, image: IMG.cream, tone: 'ivory' },
+  { id: 'treat-hyaluronic', name: 'Hyaluronic Hydra Serum', category: 'TREAT', description: 'Multi-weight hyaluronic for dewy bounce.', longDescription: 'Three weights hyaluronic + panthenol. Dehydrated feel.', price: 40, image: IMG.mist, tone: 'sand' },
+  { id: 'treat-peptide', name: 'Peptide Firming Serum', category: 'TREAT', description: 'Peptide blend for firmer-looking skin.', longDescription: 'Copper peptides + acetyl hexapeptide. Silky serum.', price: 64, image: IMG.serum, tone: 'rose' },
+  { id: 'treat-aha', name: 'AHA Resurfacing Serum', category: 'TREAT', description: 'Gentle exfoliating acids for texture.', longDescription: '7% glycolic + lactic blend. 2-3 nights per week.', price: 44, image: IMG.cream, tone: 'sage' },
+  { id: 'treat-azelaic', name: 'Azelaic Even Tone Serum', category: 'TREAT', description: 'For uneven tone and redness look.', longDescription: 'Azelaic derivative + centella. Milky serum.', price: 46, image: IMG.lotion, tone: 'ivory' },
+  { id: 'treat-centella', name: 'Calming Centella Serum', category: 'TREAT', description: 'Centella for stressed skin comfort.', longDescription: 'Centella asiatica + allantoin. Soothes feeling.', price: 36, image: IMG.serum, tone: 'sage' },
+  { id: 'treat-barrier-concentrate', name: 'Barrier Repair Concentrate', category: 'TREAT', description: 'Concentrate for compromised barrier feel.', longDescription: 'Ceramide complex + cholesterol. Rich dropper.', price: 56, image: IMG.oil, tone: 'amber' },
+  { id: 'treat-salicylic', name: 'BHA Clarifying Treatment', category: 'TREAT', description: '2% salicylic for congested look.', longDescription: 'BHA liquid treatment for oily T-zone appearance.', price: 34, image: IMG.mist, tone: 'sand' },
+  { id: 'treat-tranexamic', name: 'Tranexamic Dark Spot Serum', category: 'TREAT', description: 'For dark spots appearance.', longDescription: 'Tranexamic acid + niacinamide. Post-blemish look.', price: 48, image: IMG.serum, tone: 'rose' },
+
+  // HYDRATE - 10
+  { id: 'moisturizer', name: 'Daily Moisturizer', category: 'HYDRATE', description: 'Comforting hydration for everyday care.', longDescription: 'Ceramide NP + squalane. Seals moisture, never greasy.', price: 36, image: IMG.moisturizer, tone: 'sage' },
+  { id: 'hydrate-rich', name: 'Rich Cream Moisturizer', category: 'HYDRATE', description: 'Dense comfort for very dry skin.', longDescription: 'Shea + ceramide NP. No fragrance, for night.', price: 48, image: IMG.cream, tone: 'ivory' },
+  { id: 'hydrate-gel-cream', name: 'Gel-Cream Moisturizer', category: 'HYDRATE', description: 'Light gel-cream for combo skin.', longDescription: 'Squalane + hyaluronic. Absorbs quickly.', price: 38, image: IMG.moisturizer, tone: 'sand' },
+  { id: 'hydrate-face-oil', name: 'Botanical Face Oil', category: 'HYDRATE', description: 'Jojoba and squalane for glow.', longDescription: 'Cold-pressed oil blend. 2-3 drops patted over moisturizer.', price: 44, image: IMG.oil, tone: 'amber' },
+  { id: 'hydrate-sleep-mask', name: 'Sleep Recovery Mask', category: 'HYDRATE', description: 'Overnight mask that seals ritual.', longDescription: 'Squalane + ceramide + glycerin. Wash off in morning.', price: 42, image: IMG.mask, tone: 'rose' },
+  { id: 'hydrate-eye-cream', name: 'Eye Contour Cream', category: 'HYDRATE', description: 'Soft cream for eye area comfort.', longDescription: 'Caffeine + peptide + squalane. Fragrance-free.', price: 46, image: IMG.cream, tone: 'ivory' },
+  { id: 'hydrate-lip-balm', name: 'Lip Treatment Balm', category: 'HYDRATE', description: 'Overnight balm for dry lips.', longDescription: 'Lanolin alternative + shea + squalane.', price: 18, image: IMG.balm, tone: 'rose' },
+  { id: 'hydrate-mist', name: 'Hydrating Botanical Mist', category: 'HYDRATE', description: 'Fine mist for midday refresh.', longDescription: 'Rose water + panthenol + glycerin. No essential oils.', price: 22, image: IMG.mist, tone: 'sage' },
+  { id: 'hydrate-ceramide-milk', name: 'Ceramide Milky Lotion', category: 'HYDRATE', description: 'Milky lotion for barrier support.', longDescription: 'Ceramide + oat milk texture. Lightweight for morning.', price: 36, image: IMG.lotion, tone: 'ivory' },
+  { id: 'hydrate-neck-cream', name: 'Neck & Decollete Cream', category: 'HYDRATE', description: 'Firming texture for neck area.', longDescription: 'Peptide + squalane cream for neck and chest.', price: 52, image: IMG.cream, tone: 'sand' },
+
+  // PROTECT - 8
+  { id: 'protect-daily-spf50', name: 'Daily SPF 50 Lotion', category: 'PROTECT', description: 'Lightweight daily sunscreen.', longDescription: 'SPF 50 PA++++ broad spectrum concept. Squalane texture.', price: 34, image: IMG.lotion, tone: 'ivory' },
+  { id: 'protect-mineral-spf40', name: 'Mineral SPF 40', category: 'PROTECT', description: 'Mineral sunscreen for sensitive feel.', longDescription: 'Zinc oxide + titanium dioxide + centella.', price: 36, image: IMG.cream, tone: 'sand' },
+  { id: 'protect-spf-stick', name: 'SPF Protection Stick', category: 'PROTECT', description: 'Portable stick for reapplication.', longDescription: 'Clear balm SPF 50 stick. For nose, cheeks, ears.', price: 24, image: IMG.balm, tone: 'amber' },
+  { id: 'protect-body-spf', name: 'Body Sunscreen SPF 50', category: 'PROTECT', description: 'Body lotion SPF that spreads easily.', longDescription: 'Light lotion SPF 50. Fast absorbing.', price: 32, image: IMG.lotion, tone: 'sage' },
+  { id: 'protect-lip-spf30', name: 'Lip SPF 30 Balm', category: 'PROTECT', description: 'SPF lip balm for daily protection.', longDescription: 'SPF 30 lip balm with shea + vitamin E.', price: 16, image: IMG.balm, tone: 'rose' },
+  { id: 'protect-after-sun', name: 'After Sun Soothing Gel', category: 'PROTECT', description: 'Cooling gel for sun-exposed skin.', longDescription: 'Aloe + centella + panthenol. Soothes tightness feeling.', price: 28, image: IMG.mist, tone: 'sage' },
+  { id: 'protect-tinted-spf', name: 'Tinted Veil SPF 40', category: 'PROTECT', description: 'Tinted sunscreen with soft coverage.', longDescription: 'Iron oxides + SPF 40. Evens appearance while protecting.', price: 38, image: IMG.cream, tone: 'sand' },
+  { id: 'protect-scalp-mist', name: 'Scalp SPF Mist', category: 'PROTECT', description: 'Invisible mist for scalp and parting.', longDescription: 'Light SPF mist for hair parting and scalp.', price: 26, image: IMG.mist, tone: 'ivory' },
+
+  // RENEW - 10
+  { id: 'renew-gentle-exfoliant', name: 'Gentle Exfoliant', category: 'RENEW', description: 'Soft physical exfoliant for weekly use.', longDescription: 'Jojoba beads + oat powder. For dull-looking skin.', price: 30, image: IMG.cream, tone: 'sand' },
+  { id: 'renew-detox-clay-mask', name: 'Detox Clay Mask', category: 'RENEW', description: 'Creamy clay mask for congested look.', longDescription: 'Kaolin + green clay + niacinamide. 10 minutes then rinse.', price: 34, image: IMG.mask, tone: 'sage' },
+  { id: 'renew-honey-mask', name: 'Honey Renewal Mask', category: 'RENEW', description: 'Honey mask for soft, conditioned feel.', longDescription: 'Honey alternative + glycerin. Wash-off mask.', price: 38, image: IMG.balm, tone: 'amber' },
+  { id: 'renew-overnight-peel', name: 'Overnight Peel', category: 'RENEW', description: 'Leave-on peel for smoother appearance.', longDescription: 'AHA + BHA + PHA low blend. 2x per week nighttime.', price: 48, image: IMG.serum, tone: 'rose' },
+  { id: 'renew-body-scrub', name: 'Botanical Body Scrub', category: 'RENEW', description: 'Sugar scrub for body softness.', longDescription: 'Fine sugar + jojoba oil + shea butter.', price: 32, image: IMG.cleanser, tone: 'sand' },
+  { id: 'renew-hand-cream', name: 'Hand & Cuticle Cream', category: 'RENEW', description: 'Rich hand cream for frequent washing.', longDescription: 'Ceramide + shea + panthenol. Non-greasy finish.', price: 22, image: IMG.cream, tone: 'ivory' },
+  { id: 'renew-scalp-oil', name: 'Scalp & Hair Oil', category: 'RENEW', description: 'Light oil for scalp and dry ends.', longDescription: 'Rosemary alternative + squalane + jojoba.', price: 36, image: IMG.oil, tone: 'amber' },
+  { id: 'renew-bath-soak', name: 'Botanical Bath Soak', category: 'RENEW', description: 'Mineral soak for slow evening ritual.', longDescription: 'Epsom salt + oatmeal + chamomile.', price: 26, image: IMG.mist, tone: 'sage' },
+  { id: 'renew-foot-balm', name: 'Foot Repair Balm', category: 'RENEW', description: 'Thick balm for cracked heels feel.', longDescription: 'Shea + urea + squalane. For feet, elbows.', price: 24, image: IMG.balm, tone: 'sand' },
+  { id: 'renew-lip-scrub', name: 'Lip Polish Scrub', category: 'RENEW', description: 'Gentle sugar scrub for lips.', longDescription: 'Fine sugar + jojoba oil + honey alternative.', price: 18, image: IMG.balm, tone: 'rose' },
+];
+
+function App() {
+  const [cart, setCart] = useState([])
+  const [notice, setNotice] = useState('')
+
+  const addToCart = (product) => {
+    setCart((curr) => {
+      const found = curr.find((p) => p.id === product.id)
+      if (found) {
+        return curr.map((p) => (p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p))
+      }
+      return [...curr, { ...product, quantity: 1 }]
+    })
+    setNotice(`${product.name} added to bag`)
+    window.setTimeout(() => setNotice(''), 2800)
+  }
+
+  const cartCount = cart.reduce((sum, p) => sum + p.quantity, 0)
+
+  return (
+    <BrowserRouter>
+      <div className="aurel-app">
+        <Navbar cartCount={cartCount} />
+        {notice && (
+          <div className="aurel-toast" role="status" aria-live="polite">
+            {notice}
+          </div>
+        )}
+        <Routes>
+          <Route path="/" element={<Home products={productsData.slice(0,3)} onAddToBag={addToCart} />} />
+          <Route path="/shop" element={<Shop products={productsData} onAddToBag={addToCart} />} />
+        </Routes>
+        <Footer />
+      </div>
+    </BrowserRouter>
+  )
+}
+
+export default App
