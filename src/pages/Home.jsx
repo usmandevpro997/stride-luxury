@@ -1,77 +1,71 @@
+
 import { useState, useEffect } from 'react'
-import { productsData, getAllProducts } from '../data/products.js'
-import ProductCard from '../components/ProductCard.jsx'
 import { Link } from 'react-router-dom'
 
-export default function Home({onAdd}){
-  const [allProducts,setAllProducts]=useState(productsData.slice(0,6))
-  const [current,setCurrent]=useState(0)
-  const [heroProducts,setHeroProducts]=useState([])
+const HERO_SHOES = [
+  { id: 'hero-1', name: 'STRIDE 01 — Cloud', image: '/src/assets/shoes/shoe-01.webp', price: 155 },
+  { id: 'hero-2', name: 'STRIDE 02 — Dune', image: '/src/assets/shoes/shoe-02.webp', price: 165 },
+  { id: 'hero-3', name: 'STRIDE 03 — Stone', image: '/src/assets/shoes/shoe-03.webp', price: 175 },
+  { id: 'hero-4', name: 'STRIDE 04 — Noir', image: '/src/assets/shoes/shoe-04.webp', price: 185 },
+  { id: 'hero-5', name: 'STRIDE 05 — Bone', image: '/src/assets/shoes/shoe-05.webp', price: 175 },
+]
 
-  useEffect(()=>{ 
-    const all=getAllProducts()
-    setAllProducts(all.slice(0,6))
-    const unique = [...all].slice(0,12).filter((v,i,a)=> a.findIndex(t=> t.image===v.image)===i).slice(0,5)
-    setHeroProducts(unique)
+export default function Home({ products = [] }){
+  const [current, setCurrent] = useState(0)
+  
+  useEffect(()=>{
+    const id = setInterval(()=> setCurrent(c=> (c+1)%HERO_SHOES.length), 3000)
+    return ()=> clearInterval(id)
   },[])
 
-  useEffect(()=>{
-    const id=setInterval(()=> setCurrent(c=> (c+1)% (heroProducts.length||1)), 3000)
-    return ()=> clearInterval(id)
-  },[heroProducts.length])
-
-  const scrollToPhil=()=> document.getElementById('philosophy')?.scrollIntoView({behavior:'smooth'})
+  const shoe = HERO_SHOES[current]
 
   return (
-    <div style={{background:'#FAF8F5'}}>
-      <div style={{maxWidth:'1360px', margin:'0 auto', padding:'36px 3.5% 24px', display:'grid', gridTemplateColumns:'440px 1fr', gap:'32px', alignItems:'center', minHeight:'82vh'}}>
-        <div>
-          <div style={{fontSize:'10px', letterSpacing:'.22em', opacity:.5, marginBottom:'20px', fontWeight:600}}>STRIDE 01 — EST. 2026 — LAHORE / WORLDWIDE</div>
-          <h1 style={{fontFamily:'Fraunces', fontSize:'clamp(52px,6.2vw,78px)', lineHeight:.88, fontWeight:100, letterSpacing:'-.05em'}}>
-            Less but<br/>better<br/><span style={{fontStyle:'italic', color:'#C19A6B', fontWeight:300}}>made.</span>
-          </h1>
-          <p style={{marginTop:'18px', maxWidth:'360px', fontSize:'13.5px', lineHeight:1.75, opacity:.62}}>
-            One silhouette. Twelve materials. No logos. Considered footwear built on travertine, not trends.
-          </p>
-          <div style={{marginTop:'28px', display:'flex', gap:'10px'}}>
-            <Link to="/shop" className="btn-primary" style={{padding:'16px 24px', textDecoration:'none', fontSize:'11px', display:'inline-grid', placeItems:'center'}}>SHOP COLLECTION ↗</Link>
-            <button onClick={scrollToPhil} className="btn-ghost" style={{padding:'16px 22px', borderRadius:'999px', fontSize:'11px', border:'1px solid rgba(0,0,0,.12)', background:'#fff', cursor:'pointer'}}>OUR PHILOSOPHY</button>
+    <div style={{background:'#FAF8F5', minHeight:'100vh'}}>
+      <style>{`
+        .hero-wrap{display:grid; grid-template-columns:1.1fr .9fr; min-height:calc(100vh - 114px); align-items:center; padding:0 3.5%; gap:24px; background:#FAF8F5}
+        .hero-copy h1{font-family:Fraunces; font-size:clamp(36px,6vw,84px); font-weight:100; line-height:.9; letter-spacing:-.04em; margin:0}
+        .hero-copy h1 em{font-style:italic; color:#B08D57}
+        .hero-lead{margin-top:18px; max-width:420px; font-size:14px; line-height:1.6; opacity:.7}
+        .hero-actions{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap}
+        .hero-visual{position:relative; background:#fff; border-radius:24px; border:1px solid rgba(0,0,0,.06); padding:18px; box-shadow:0 24px 64px rgba(0,0,0,.06); display:grid; place-items:center; aspect-ratio:1/1; max-height:560px}
+        .hero-visual img{width:100%; height:100%; object-fit:contain; background:#F5F1E9; border-radius:16px; padding:12px}
+        .hero-dots{display:flex; gap:8px; margin-top:18px}
+        .hero-dot{width:32px; height:3px; border-radius:999px; background:rgba(0,0,0,.12); border:none; cursor:pointer; transition:.3s}
+        .hero-dot.active{background:#0A0A0A; width:48px}
+        @media(max-width:900px){
+          .hero-wrap{grid-template-columns:1fr; min-height:auto; padding:24px 4% 16px; gap:16px}
+          .hero-visual{aspect-ratio:1.2/1; max-height:380px; padding:12px; border-radius:16px}
+          .hero-visual img{padding:8px; border-radius:12px}
+          .hero-copy h1{font-size:clamp(32px,9vw,48px)}
+          .hero-lead{font-size:13px; margin-top:12px}
+          .hero-actions{margin-top:16px}
+          .hero-dots{margin-top:12px}
+        }
+      `}</style>
+
+      <section className="hero-wrap">
+        <div className="hero-copy">
+          <div style={{fontSize:'11px', letterSpacing:'.18em', opacity:.5, marginBottom:'14px'}}>STRIDE 01 — EST. 2026 — LAHORE / WORLDWIDE</div>
+          <h1>Less but<br/>better<br/><em>made.</em></h1>
+          <p className="hero-lead">Built on travertine, not trends. 50 styles, no logos — considered footwear for everyday ritual.</p>
+          <div className="hero-actions">
+            <Link to="/shop" className="btn-primary" style={{textDecoration:'none', padding:'14px 22px', fontSize:'11px'}}>SHOP COLLECTION ↗</Link>
+            <Link to="/shop" className="btn-ghost" style={{textDecoration:'none', padding:'14px 18px', fontSize:'11px', borderRadius:'999px', border:'1px solid rgba(0,0,0,.1)'}}>OUR PHILOSOPHY</Link>
           </div>
-          <div style={{marginTop:'28px', display:'flex', gap:'8px', alignItems:'center'}}>
-            {heroProducts.map((_,i)=>(
-              <button key={i} onClick={()=> setCurrent(i)} style={{width: current===i? '28px':'8px', height:'8px', borderRadius:'999px', border:'none', background: current===i? '#0A0A0A':'rgba(0,0,0,.15)', cursor:'pointer', transition:'.3s'}} />
-            ))}
-            <span style={{marginLeft:'12px', fontSize:'10px', opacity:.4}}>{String(current+1).padStart(2,'0')} / {String(heroProducts.length).padStart(2,'0')}</span>
+          <div className="hero-dots">
+            {HERO_SHOES.map((_,i)=> <button key={i} onClick={()=> setCurrent(i)} className={`hero-dot ${i===current?'active':''}`} aria-label={`Go to ${i+1}`} />)}
+            <span style={{marginLeft:'12px', fontSize:'11px', opacity:.5}}>0{current+1} / 0{HERO_SHOES.length}</span>
           </div>
         </div>
-        <div style={{position:'relative', background:'#F0EBE1', borderRadius:'22px', padding:'18px', display:'grid', placeItems:'center', minHeight:'560px'}}>
-          <div style={{width:'100%', maxWidth:'620px', aspectRatio:'1.15/1', background:'#fff', borderRadius:'18px', padding:'16px', boxShadow:'0 20px 60px rgba(0,0,0,.08)', position:'relative', overflow:'hidden'}}>
-            {heroProducts.map((p,idx)=>(
-              <div key={p.id} style={{position:'absolute', inset:'16px', opacity: idx===current?1:0, transform: `scale(${idx===current?1:.96})`, transition:'all .6s cubic-bezier(.16,1,.3,1)', pointerEvents: idx===current?'auto':'none'}}>
-                <img src={p.image} alt={p.name} style={{width:'100%', height:'100%', objectFit:'contain', background:'#FAF8F5', borderRadius:'12px'}} />
-                <div style={{position:'absolute', bottom:'12px', left:'12px', right:'12px', display:'flex', justifyContent:'space-between'}}>
-                  <div style={{background:'rgba(255,255,255,.92)', backdropFilter:'blur(10px)', padding:'8px 12px', borderRadius:'999px', fontSize:'10px', fontWeight:600}}>{p.name} — ${p.price}</div>
-                  <Link to={`/product/${p.id}`} style={{background:'#0A0A0A', color:'#fff', padding:'8px 14px', borderRadius:'999px', fontSize:'10px', textDecoration:'none'}}>VIEW →</Link>
-                </div>
-              </div>
-            ))}
+
+        <div className="hero-visual">
+          <img src={shoe.image} alt={shoe.name} />
+          <div style={{position:'absolute', bottom:'18px', right:'18px', background:'#0A0A0A', color:'#fff', borderRadius:'999px', padding:'8px 14px', fontSize:'11px', display:'flex', alignItems:'center', gap:'8px'}}>
+            {shoe.name} — ${shoe.price} <Link to="/shop" style={{color:'#fff', textDecoration:'none'}}>VIEW →</Link>
           </div>
-          <button onClick={()=> setCurrent(c=> (c-1+heroProducts.length)%heroProducts.length)} style={{position:'absolute', left:'16px', top:'50%', transform:'translateY(-50%)', width:'44px', height:'44px', borderRadius:'999px', border:'1px solid rgba(0,0,0,.1)', background:'rgba(255,255,255,.9)', cursor:'pointer'}}>‹</button>
-          <button onClick={()=> setCurrent(c=> (c+1)%heroProducts.length)} style={{position:'absolute', right:'16px', top:'50%', transform:'translateY(-50%)', width:'44px', height:'44px', borderRadius:'999px', border:'1px solid rgba(0,0,0,.1)', background:'rgba(255,255,255,.9)', cursor:'pointer'}}>›</button>
         </div>
-      </div>
-      <div id="philosophy" style={{display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:'1px', background:'rgba(0,0,0,.06)', borderTop:'1px solid rgba(0,0,0,.06)', borderBottom:'1px solid rgba(0,0,0,.06)'}}>
-        {[{t:'Materials first',d:'Suede, leather, knit, canvas.'},{t:'One silhouette',d:'Twelve variations on one shape.'},{t:'Built on travertine',d:'Sole inspired by Lahore stone.'}].map((x,i)=>(
-          <div key={i} style={{background:'#fff', padding:'26px 24px'}}><div style={{fontFamily:'Fraunces', fontSize:'18px'}}>{x.t}</div><div style={{fontSize:'12px', opacity:.5, marginTop:'6px'}}>{x.d}</div></div>
-        ))}
-      </div>
-      <div className="stride-filters" style={{position:'relative', top:0}}>
-        <div style={{fontSize:'11px', letterSpacing:'.16em', fontWeight:600}}>FEATURED — {allProducts.length} STYLES — NO REPEAT</div>
-        <Link to="/shop" style={{fontSize:'11px', textDecoration:'underline'}}>VIEW ALL 50+ →</Link>
-      </div>
-      <div className="stride-grid">
-        {allProducts.map(p=> <ProductCard key={p.id} product={p} onAdd={onAdd} />)}
-      </div>
+      </section>
     </div>
   )
 }
