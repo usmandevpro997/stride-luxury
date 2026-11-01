@@ -1,9 +1,12 @@
 
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { productsData } from '../data/products.js'
 
 export default function Home({ products = [] }){
-  const heroShoes = products.slice(0,5)
+  // Use prop if available, else fallback to imported data
+  const allProducts = products.length > 0 ? products : productsData
+  const heroShoes = allProducts.slice(0,5)
   const [current, setCurrent] = useState(0)
   
   useEffect(()=>{
@@ -12,15 +15,17 @@ export default function Home({ products = [] }){
     return ()=> clearInterval(id)
   },[heroShoes.length])
 
-  const shoe = heroShoes[current] || products[0]
+  const shoe = heroShoes[current] || allProducts[0]
 
-  if(!shoe) return <div style={{padding:'40px'}}>Loading STRIDE...</div>
+  if(!shoe){
+    return <div style={{padding:'60px', textAlign:'center'}}>Loading STRIDE... {allProducts.length} products</div>
+  }
 
   return (
     <div style={{background:'#FAF8F5', minHeight:'100vh'}}>
       <style>{`
         .hero-wrap{display:grid; grid-template-columns:1.1fr .9fr; min-height:calc(100vh - 114px); align-items:center; padding:0 3.5%; gap:24px; background:#FAF8F5}
-        .hero-copy h1{font-family:Fraunces; font-size:clamp(36px,6vw,84px); font-weight:100; line-height:.9; letter-spacing:-.04em; margin:0}
+        .hero-copy h1{font-family:Fraunces, serif; font-size:clamp(36px,6vw,84px); font-weight:100; line-height:.9; letter-spacing:-.04em; margin:0}
         .hero-copy h1 em{font-style:italic; color:#B08D57}
         .hero-lead{margin-top:18px; max-width:420px; font-size:14px; line-height:1.6; opacity:.7}
         .hero-actions{margin-top:28px; display:flex; gap:12px; flex-wrap:wrap}
@@ -46,12 +51,12 @@ export default function Home({ products = [] }){
           <h1>Less but<br/>better<br/><em>made.</em></h1>
           <p className="hero-lead">Built on travertine, not trends. 50 styles, no logos — considered footwear for everyday ritual.</p>
           <div className="hero-actions">
-            <Link to="/shop" className="btn-primary" style={{textDecoration:'none', padding:'14px 22px', fontSize:'11px', display:'inline-flex', alignItems:'center', gap:'6px', background:'#0A0A0A', color:'#fff', borderRadius:'999px'}}>SHOP COLLECTION ↗</Link>
-            <Link to="/shop" className="btn-ghost" style={{textDecoration:'none', padding:'14px 18px', fontSize:'11px', borderRadius:'999px', border:'1px solid rgba(0,0,0,.1)', color:'#0A0A0A'}}>OUR PHILOSOPHY</Link>
+            <Link to="/shop" style={{textDecoration:'none', padding:'14px 22px', fontSize:'11px', display:'inline-flex', alignItems:'center', gap:'6px', background:'#0A0A0A', color:'#fff', borderRadius:'999px'}}>SHOP COLLECTION ↗</Link>
+            <Link to="/shop" style={{textDecoration:'none', padding:'14px 18px', fontSize:'11px', borderRadius:'999px', border:'1px solid rgba(0,0,0,.1)', color:'#0A0A0A'}}>OUR PHILOSOPHY</Link>
           </div>
           <div className="hero-dots">
             {heroShoes.map((_,i)=> <button key={i} onClick={()=> setCurrent(i)} className={`hero-dot ${i===current?'active':''}`} aria-label={`Go to ${i+1}`} />)}
-            <span style={{marginLeft:'12px', fontSize:'11px', opacity:.5}}>0{current+1} / 0{heroShoes.length || 5}</span>
+            <span style={{marginLeft:'12px', fontSize:'11px', opacity:.5}}>0{current+1} / 0{heroShoes.length}</span>
           </div>
         </div>
 
